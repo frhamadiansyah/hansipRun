@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createBackground() {
         for i in 0...3 {
-            let sky = SKSpriteNode(imageNamed: "Sky")
+            let sky = SKSpriteNode(imageNamed: "background-sky")
             sky.name = "sky"
             sky.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!)
             sky.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -50,7 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createLand() {
-        let land = SKSpriteNode(imageNamed: "Land")
+        let land = SKSpriteNode(imageNamed: "foreground-land")
         land.name = "land"
         land.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!/2)
         land.anchorPoint = CGPoint(x: 0.5, y: 0.5)
