@@ -32,6 +32,7 @@ class GameScene: SKScene {
         createBackground()
         createGround()
         createHansip()
+        createDistanceBar()
         setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
         finishCriteria(duration: levelDuration)
     }
@@ -154,6 +155,13 @@ extension GameScene {
         let moveAction = SKAction.moveTo(x: frame.minX, duration: 2)
         poskamling.run(SKAction.sequence([moveAction]))
         
+    }
+    
+    func createDistanceBar() {
+        let distanceBar = SKShapeNode(rect: CGRect(x: -frame.width/4, y: frame.height/3, width: frame.width/2, height: 20))
+        distanceBar.zPosition = 4
+        distanceBar.fillColor = .red
+        self.addChild(distanceBar)
     }
     
 }
