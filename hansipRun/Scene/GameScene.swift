@@ -12,19 +12,28 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    
     var hansip : SKSpriteNode!
+    var ground : SKSpriteNode!
+    
+    let levelDuration = 20
+    let minSpawnTime = 1.0
+    let maxSpawnTime = 2.0
     
     override func didMove(to view: SKView) {
+        
+        // set boundary
         physicsWorld.contactDelegate = self
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: -self.size.width/2, y: -self.size.height/2, width: self.size.width, height: self.size.height))
         self.physicsBody?.categoryBitMask = PhysicsCategory.boundary
         self.physicsBody?.contactTestBitMask = PhysicsCategory.hansip
         
+        //set background
         createBackground()
-        createLand()
+        createGround()
         createHansip()
-        setupSpawnAction()
-        setupFinish()
+        setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
+        finishCriteria(duration: levelDuration)
     }
     
     
@@ -36,26 +45,34 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 500.0), duration: 0.1))
+        hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 200.0), duration: 0.1))
         hansip.removeAction(forKey: "movingAnimation")
         hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
         
     }
     
+
+}
+
+
+//MARK: - Create Character and Background
+
+extension GameScene {
+    
     func createHansip() {
         hansip = SKSpriteNode(imageNamed: "Hansip - Stand-1.png")
         
         hansip.name = "hansip"
-        hansip.size = CGSize(width: (self.scene?.size.width)! * 0.15, height: (self.scene?.size.width)! * 0.15)
+        hansip.setScale(2)
         hansip.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
-        hansip.position = CGPoint(x: frame.midX, y: frame.midY)
+        hansip.position = CGPoint(x: frame.midX, y: frame.minY + ground.size.height/2 + hansip.size.height/2)
         hansip.zPosition = 2
         
         self.addChild(hansip)
         
         //add physicsbody
-        let hansipBody = SKPhysicsBody(rectangleOf: CGSize(width: hansip.size.width, height: hansip.size.height))
+        let hansipBody = SKPhysicsBody(rectangleOf: CGSize(width: hansip.size.width/2, height: hansip.size.height))
         hansipBody.isDynamic = true
         hansipBody.affectedByGravity = true
         hansipBody.allowsRotation = false
@@ -68,57 +85,37 @@ class GameScene: SKScene {
         hansipRunningAnimation(asset: hansip)
     }
     
-    func setupSpawnAction() {
-        let spawnBgMeteorAction = SKAction.run {
-            self.createObstacle()
+    func createBackground() {
+        for i in 0...3 {
+            let sky = SKSpriteNode(imageNamed: "background-sky")
+            sky.name = "sky"
+            sky.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!)
+            sky.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            sky.position = CGPoint(x: CGFloat(i) * sky.size.width, y: 0)
+            
+            self.addChild(sky)
+            
         }
-        
-        let waitAction = SKAction.wait(forDuration: 1)
-        
-        let sequence = SKAction.sequence([spawnBgMeteorAction, waitAction])
-        run(SKAction.repeatForever(sequence), withKey: "spawnObstacle")
-
     }
     
     
-}
-
-//MARK: - Physics Contact
-
-extension GameScene : SKPhysicsContactDelegate {
-    
-    func didBegin(_ contact: SKPhysicsContact) {
-        let bitMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+    func createGround() {
+        ground = SKSpriteNode(imageNamed: "foreground-land")
+        ground.name = "land"
+        ground.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!/2)
+        ground.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        ground.position = CGPoint(x: frame.midX, y: frame.minY)
+        ground.zPosition = 1
+        ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: ground.size.width, height: ground.size.height))
+        ground.physicsBody?.isDynamic = false
+        ground.physicsBody?.affectedByGravity = true
+        ground.physicsBody?.categoryBitMask = PhysicsCategory.land
+        ground.physicsBody?.contactTestBitMask = PhysicsCategory.hansip
         
-        if (bitMask == PhysicsCategory.land | PhysicsCategory.hansip) {
-            let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
-            
-            hansipRunningAnimation(asset: hansip)
-            
-        } else if (bitMask == PhysicsCategory.boundary | PhysicsCategory.hansip) {
-            print("lose")
-            if let scene = SKScene(fileNamed: "MainMenuScene") {
-                scene.scaleMode = scaleMode
-                view?.presentScene(scene)
-            }
-        } else if (bitMask == PhysicsCategory.poskamling | PhysicsCategory.hansip) {
-            print("finish")
-            if let scene = SKScene(fileNamed: "MainMenuScene") {
-                scene.scaleMode = scaleMode
-                view?.presentScene(scene)
-            }
-        }
-        
+        self.addChild(ground)
     }
     
-    
-}
-
-//MARK: - Obstacle Function
-
-extension GameScene {
-    
-    func createObstacle() {
+    func createObstacle(speed : Double) {
             let obstacleArray = ["challenge-log", "challenge-rocks"]
             let randomInt = Int.random(in: 0...1)
             let obstacle = SKSpriteNode(imageNamed: obstacleArray[randomInt])
@@ -135,46 +132,36 @@ extension GameScene {
             obstacleBody.isDynamic = false
             obstacle.physicsBody = obstacleBody
 
-            let moveAction = SKAction.moveTo(x: frame.minX, duration: 2)
+        let moveAction = SKAction.moveTo(x: frame.minX, duration: TimeInterval(speed))
             obstacle.run(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
         }
     
+    func createPoskamling() {
+        let poskamling = SKSpriteNode(imageNamed: "poskamling")
+        poskamling.anchorPoint = CGPoint(x: 0, y: 0)
+        poskamling.setScale(2)
+        poskamling.position = CGPoint(x: frame.maxX - poskamling.size.width, y: frame.minY + (self.scene?.size.height)!/4)
+        poskamling.zPosition = 4
+        self.addChild(poskamling)
+        print("muncul")
+        
+        poskamling.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: poskamling.size.width/2, height: poskamling.size.height))
+        poskamling.physicsBody?.isDynamic = false
+        
+        poskamling.physicsBody?.categoryBitMask = PhysicsCategory.poskamling
+        poskamling.physicsBody?.contactTestBitMask = PhysicsCategory.hansip
+        
+        let moveAction = SKAction.moveTo(x: frame.minX, duration: 2)
+        poskamling.run(SKAction.sequence([moveAction]))
+        
+    }
+    
 }
 
-//MARK: - Background and Movement
+//MARK: - Animation and Movement (Aesthetic)
 
 extension GameScene {
-    
-    func createBackground() {
-        for i in 0...3 {
-            let sky = SKSpriteNode(imageNamed: "background-sky")
-            sky.name = "sky"
-            sky.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!)
-            sky.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            sky.position = CGPoint(x: CGFloat(i) * sky.size.width, y: 0)
-            
-            self.addChild(sky)
-            
-        }
-    }
-    
-    func createLand() {
-        let land = SKSpriteNode(imageNamed: "foreground-land")
-        land.name = "land"
-        land.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!/2)
-        land.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        land.position = CGPoint(x: 0, y: frame.minY)
-        land.zPosition = 1
-        land.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: land.size.width, height: land.size.height))
-        land.physicsBody?.isDynamic = false
-        land.physicsBody?.affectedByGravity = true
-        land.physicsBody?.categoryBitMask = PhysicsCategory.land
-        land.physicsBody?.contactTestBitMask = PhysicsCategory.hansip
-        
-        self.addChild(land)
-    }
-    
-    
+
     func hansipRunningAnimation(asset : SKSpriteNode) {
         
         var moving : [SKTexture] = []
@@ -200,37 +187,29 @@ extension GameScene {
 }
 
 
-//MARK: - Finish Category
+//MARK: - Game Mechanics
 
 extension GameScene {
     
-    func spawnPoskamling() {
-        let poskamling = SKSpriteNode(imageNamed: "poskamling")
-        poskamling.anchorPoint = CGPoint(x: 0, y: 0)
-        poskamling.setScale(2)
-        poskamling.position = CGPoint(x: frame.maxX - poskamling.size.width, y: frame.minY + (self.scene?.size.height)!/4)
-        poskamling.zPosition = 4
-        self.addChild(poskamling)
-        print("muncul")
-        
-        poskamling.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: poskamling.size.width/2, height: poskamling.size.height))
-        poskamling.physicsBody?.isDynamic = false
-        
-        
-        poskamling.physicsBody?.categoryBitMask = PhysicsCategory.poskamling
-        poskamling.physicsBody?.contactTestBitMask = PhysicsCategory.hansip
-        
-        let moveAction = SKAction.moveTo(x: frame.minX, duration: 2)
-        poskamling.run(SKAction.sequence([moveAction]))
-        
-    }
-    
-    func setupFinish() {
-        let spawnPoskamling = SKAction.run {
-            self.spawnPoskamling()
+    func setupSpawnAction(minSpawnTime: Double, maxSpawnTime : Double) {
+        let spawnBgMeteorAction = SKAction.run {
+            self.createObstacle(speed: Double.random(in: minSpawnTime...maxSpawnTime))
         }
         
-        let levelDuration = SKAction.wait(forDuration: 10)
+        let waitAction = SKAction.wait(forDuration: 1)
+        
+        let sequence = SKAction.sequence([waitAction, spawnBgMeteorAction])
+        run(SKAction.repeatForever(sequence), withKey: "spawnObstacle")
+
+    }
+    
+    
+    func finishCriteria(duration : Int) {
+        let spawnPoskamling = SKAction.run {
+            self.createPoskamling()
+        }
+        
+        let levelDuration = SKAction.wait(forDuration: TimeInterval(duration))
         let waitAction = SKAction.wait(forDuration: 5)
         let removeAction = SKAction.run {
             self.removeAction(forKey: "spawnObstacle")
@@ -242,3 +221,36 @@ extension GameScene {
     
 }
 
+
+//MARK: - Physics Contact
+
+extension GameScene : SKPhysicsContactDelegate {
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let bitMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
+        if (bitMask == PhysicsCategory.land | PhysicsCategory.hansip) {
+            let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
+            
+            hansipRunningAnimation(asset: hansip)
+            
+        } else if (bitMask == PhysicsCategory.boundary | PhysicsCategory.hansip) {
+            print("lose")
+            if let scene = SKScene(fileNamed: "GameOverScene") {
+                scene.scaleMode = scaleMode
+                view?.presentScene(scene)
+            }
+            
+        } else if (bitMask == PhysicsCategory.poskamling | PhysicsCategory.hansip) {
+            print("finish")
+            if let scene = SKScene(fileNamed: "MainMenuScene") {
+                scene.scaleMode = scaleMode
+                view?.presentScene(scene)
+            }
+            
+        }
+        
+    }
+    
+    
+}
