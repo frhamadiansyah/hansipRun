@@ -183,7 +183,7 @@ extension GameScene {
     }
     
     func moveBackground() {
-        self.enumerateChildNodes(withName: "sky") { (node, error) in
+        self.enumerateChildNodes(withName: "background-sky") { (node, error) in
             node.position.x -= 3
             
             if node.position.x < -((self.scene?.size.width)!) {
