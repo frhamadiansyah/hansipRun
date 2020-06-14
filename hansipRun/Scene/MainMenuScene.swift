@@ -29,7 +29,7 @@ class MainMenuScene: SKScene {
     }
     
     func createBackground() {
-        let sky = SKSpriteNode(imageNamed: "Sky")
+        let sky = SKSpriteNode(imageNamed: "background-sky")
         sky.name = "sky"
         sky.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!)
         sky.anchorPoint = CGPoint(x: 0.5, y: 0.5)
