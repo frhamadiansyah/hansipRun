@@ -8,9 +8,17 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
+import CoreAudio
 
 
 class GameScene: SKScene {
+    
+    // Voice Control Variable
+    var recordingSession: AVAudioSession!
+    var audioRecorder: AVAudioRecorder!
+    var levelTimer = Timer()
+    var voicePower : Float = 0.0
     
     // character
     var hansip : SKSpriteNode!
@@ -31,6 +39,8 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
+        runVoiceControl()
+        
         // set boundary
         physicsWorld.contactDelegate = self
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: -self.size.width/2, y: -self.size.height/2, width: self.size.width, height: self.size.height))
@@ -48,24 +58,29 @@ class GameScene: SKScene {
         // set distanceBar boundary
         Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
         
+        // jump
+        
     }
     
     
     override func update(_ currentTime: TimeInterval) {
         moveBackground()
-
+        jumpControl()
     }
     
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if hansip is airborne, he is incapable of jumping
-        if inGround == true {
-            inGround = false
-            hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 500.0), duration: 0.1))
-            hansip.removeAction(forKey: "movingAnimation")
-            hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
-        }
+//        if inGround == true {
+//            if voicePower > -120.0 {
+//                inGround = false
+//                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 500.0), duration: 0.1))
+//                hansip.removeAction(forKey: "movingAnimation")
+//                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+//            }
+//
+//        }
         
         
     }
@@ -240,6 +255,18 @@ extension GameScene {
 
 extension GameScene {
     
+    func jumpControl() {
+        if inGround == true {
+            if voicePower > -12.0 {
+                print(voicePower)
+                inGround = false
+                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 10.0 * pow(Double(voicePower),2)), duration: 0.1))
+                hansip.removeAction(forKey: "movingAnimation")
+                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+            }
+        }
+    }
+    
     func setupSpawnAction(minSpawnTime: Double, maxSpawnTime : Double) {
         let spawnBgMeteorAction = SKAction.run {
             self.createObstacle(speed: Double.random(in: minSpawnTime...maxSpawnTime))
@@ -284,10 +311,10 @@ extension GameScene {
     @objc func updateProgress() {
         //example functionality
         if levelProgress < levelDuration * 4 {
-            print(levelProgress)
+//            print(levelProgress)
             pocongMini.position.x = hansipMini.position.x - (hansip.position.x - frame.minX)/4
             //        let progress = CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
-                    hansipMini.position.x = distanceBar.frame.minX + distanceBar.frame.width/3 + CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
+            hansipMini.position.x = distanceBar.frame.minX + distanceBar.frame.width/3 + CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
             levelProgress += 1
         }
     }
@@ -328,5 +355,67 @@ extension GameScene : SKPhysicsContactDelegate {
         
     }
     
+}
+
+//MARK: - Voice Control
+
+extension GameScene : AVAudioRecorderDelegate {
     
+    func runVoiceControl() {
+        recordingSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try recordingSession.setCategory(.playAndRecord, mode: .default)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async {
+                    if allowed {
+                        self.startRecording()
+                    } else {
+                        // failed to record
+                    }
+                }
+            }
+        } catch {
+            // failed to record!
+        }
+    }
+    
+    func startRecording() {
+        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
+        
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 44100,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue
+        ]
+        
+        do {
+            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder.delegate = self
+            audioRecorder.isMeteringEnabled = true
+            audioRecorder.record()
+            
+            //            recordButton.setTitle("Tap to Stop", for: .normal)
+            
+            levelTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.levelTimerCallback), userInfo: nil, repeats: true)
+            
+        } catch {
+            //                finishRecording(success: false)
+            print("gagal")
+        }
+    }
+    
+    @objc func levelTimerCallback() {
+
+        audioRecorder.updateMeters()
+        voicePower = audioRecorder.peakPower(forChannel: 0)
+
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
 }
