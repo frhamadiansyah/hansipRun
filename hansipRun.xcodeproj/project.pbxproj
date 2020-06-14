@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		750257D42496AB1F004BC3DD /* YouWinScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750257D32496AB1F004BC3DD /* YouWinScene.swift */; };
+		750257D62496AB2F004BC3DD /* YouWinScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 750257D52496AB2F004BC3DD /* YouWinScene.sks */; };
+		750257D82496AFC0004BC3DD /* levelObjective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750257D72496AFC0004BC3DD /* levelObjective.swift */; };
 		7537E34924921D8100FB7D39 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E34824921D8100FB7D39 /* State.swift */; };
 		7537E3512492761C00FB7D39 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7537E3502492761C00FB7D39 /* MainMenuScene.sks */; };
 		7537E3532492763B00FB7D39 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E3522492763B00FB7D39 /* MainMenuScene.swift */; };
@@ -24,6 +27,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		750257D32496AB1F004BC3DD /* YouWinScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouWinScene.swift; sourceTree = "<group>"; };
+		750257D52496AB2F004BC3DD /* YouWinScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = YouWinScene.sks; sourceTree = "<group>"; };
+		750257D72496AFC0004BC3DD /* levelObjective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = levelObjective.swift; sourceTree = "<group>"; };
 		7537E34824921D8100FB7D39 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		7537E3502492761C00FB7D39 /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
 		7537E3522492763B00FB7D39 /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
@@ -64,6 +70,8 @@
 				7563FA6C2493763700448320 /* PhysicsCategory.swift */,
 				75531E172494B3230011E557 /* GameOverScene.sks */,
 				75531E192494B3380011E557 /* GameOverScene.swift */,
+				750257D32496AB1F004BC3DD /* YouWinScene.swift */,
+				750257D52496AB2F004BC3DD /* YouWinScene.sks */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -95,6 +103,7 @@
 				75669B862490F5AF00BC0354 /* LaunchScreen.storyboard */,
 				75669B892490F5AF00BC0354 /* Info.plist */,
 				7537E34824921D8100FB7D39 /* State.swift */,
+				750257D72496AFC0004BC3DD /* levelObjective.swift */,
 			);
 			path = hansipRun;
 			sourceTree = "<group>";
@@ -164,6 +173,7 @@
 				75669B882490F5AF00BC0354 /* LaunchScreen.storyboard in Resources */,
 				7537E3512492761C00FB7D39 /* MainMenuScene.sks in Resources */,
 				75669B7C2490F5AD00BC0354 /* Actions.sks in Resources */,
+				750257D62496AB2F004BC3DD /* YouWinScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +189,8 @@
 				75531E1A2494B3380011E557 /* GameOverScene.swift in Sources */,
 				7537E34924921D8100FB7D39 /* State.swift in Sources */,
 				7563FA6D2493763700448320 /* PhysicsCategory.swift in Sources */,
+				750257D82496AFC0004BC3DD /* levelObjective.swift in Sources */,
+				750257D42496AB1F004BC3DD /* YouWinScene.swift in Sources */,
 				75669B802490F5AD00BC0354 /* GameViewController.swift in Sources */,
 				75669B782490F5AD00BC0354 /* AppDelegate.swift in Sources */,
 			);
@@ -325,8 +337,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W5ZPF478J8;
+				DEVELOPMENT_TEAM = JPMPS53HUZ;
 				INFOPLIST_FILE = hansipRun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -343,8 +356,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W5ZPF478J8;
+				DEVELOPMENT_TEAM = JPMPS53HUZ;
 				INFOPLIST_FILE = hansipRun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

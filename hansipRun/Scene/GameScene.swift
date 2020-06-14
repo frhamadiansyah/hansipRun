@@ -8,19 +8,38 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
+import CoreAudio
 
 
 class GameScene: SKScene {
     
+    // Voice Control Variable
+    var recordingSession: AVAudioSession!
+    var audioRecorder: AVAudioRecorder!
+    var levelTimer = Timer()
+    var voicePower : Float = 0.0
     
+    // character
     var hansip : SKSpriteNode!
     var ground : SKSpriteNode!
     
-    let levelDuration = 20
+    // distance progress
+    var hansipMini : SKSpriteNode!
+    var pocongMini : SKSpriteNode!
+    var distanceBar : SKShapeNode!
+    var pocongPosition : CGFloat!
+    
+    
+    var levelDuration = levelObjective.duration
     let minSpawnTime = 1.0
     let maxSpawnTime = 2.0
+    var inGround = true
+    var levelProgress = 0.0
     
     override func didMove(to view: SKView) {
+        
+        runVoiceControl()
         
         // set boundary
         physicsWorld.contactDelegate = self
@@ -35,24 +54,38 @@ class GameScene: SKScene {
         createDistanceBar()
         setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
         finishCriteria(duration: levelDuration)
+        
+        // set distanceBar boundary
+        Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
+        
+        // jump
+        
     }
     
     
     override func update(_ currentTime: TimeInterval) {
         moveBackground()
+        jumpControl()
     }
     
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // if hansip is airborne, he is incapable of jumping
+//        if inGround == true {
+////            if voicePower > -120.0 {
+//                inGround = false
+//                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 500.0), duration: 0.1))
+//                hansip.removeAction(forKey: "movingAnimation")
+//                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+//            }
+//
+//        }
         
-        hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 200.0), duration: 0.1))
-        hansip.removeAction(forKey: "movingAnimation")
-        hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
         
     }
     
-
+    
 }
 
 
@@ -64,7 +97,7 @@ extension GameScene {
         hansip = SKSpriteNode(imageNamed: "Hansip - Stand-1.png")
         
         hansip.name = "hansip"
-        hansip.setScale(2)
+        hansip.setScale(3)
         hansip.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         hansip.position = CGPoint(x: frame.midX, y: frame.minY + ground.size.height/2 + hansip.size.height/2)
@@ -78,7 +111,7 @@ extension GameScene {
         hansipBody.affectedByGravity = true
         hansipBody.allowsRotation = false
         hansipBody.categoryBitMask = PhysicsCategory.hansip
-        hansipBody.contactTestBitMask = PhysicsCategory.land | PhysicsCategory.boundary
+        hansipBody.contactTestBitMask = PhysicsCategory.land | PhysicsCategory.boundary | PhysicsCategory.obstacle
         hansip.physicsBody = hansipBody
         
         
@@ -117,30 +150,32 @@ extension GameScene {
     }
     
     func createObstacle(speed : Double) {
-            let obstacleArray = ["challenge-log", "challenge-rocks"]
-            let randomInt = Int.random(in: 0...1)
-            let obstacle = SKSpriteNode(imageNamed: obstacleArray[randomInt])
-            obstacle.anchorPoint = CGPoint(x: 0, y: 0)
-            obstacle.setScale(0.1 * CGFloat.random(in: 5...20))
-            obstacle.position = CGPoint(x: frame.maxX - obstacle.size.width, y: frame.minY + (self.scene?.size.height)!/4)
-            obstacle.zPosition = 3
-            self.addChild(obstacle)
-            
-            print("ada")
-            
-    //        let obstacleBody = SKPhysicsBody(rectangleOf: CGSize(width: obstacle.size.width, height: obstacle.size.height))
-            let obstacleBody = SKPhysicsBody(texture: SKTexture(imageNamed: obstacleArray[randomInt]), alphaThreshold: 0, size: obstacle.size)
-            obstacleBody.isDynamic = false
-            obstacle.physicsBody = obstacleBody
-
+        let obstacleArray = ["challenge-log", "challenge-rocks"]
+        let randomInt = Int.random(in: 0...1)
+        let obstacle = SKSpriteNode(imageNamed: obstacleArray[randomInt])
+        obstacle.anchorPoint = CGPoint(x: 0, y: 0)
+        obstacle.setScale(0.1 * CGFloat.random(in: 5...20))
+        obstacle.position = CGPoint(x: frame.maxX - obstacle.size.width, y: frame.minY + (self.scene?.size.height)!/4)
+        obstacle.zPosition = 3
+        self.addChild(obstacle)
+        
+        print("ada")
+        
+        //        let obstacleBody = SKPhysicsBody(rectangleOf: CGSize(width: obstacle.size.width, height: obstacle.size.height))
+        let obstacleBody = SKPhysicsBody(texture: SKTexture(imageNamed: obstacleArray[randomInt]), alphaThreshold: 0, size: obstacle.size)
+        obstacleBody.isDynamic = false
+        obstacleBody.categoryBitMask = PhysicsCategory.obstacle
+        obstacleBody.contactTestBitMask = PhysicsCategory.hansip
+        obstacle.physicsBody = obstacleBody
+        
         let moveAction = SKAction.moveTo(x: frame.minX, duration: TimeInterval(speed))
-            obstacle.run(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
-        }
+        obstacle.run(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
+    }
     
     func createPoskamling() {
         let poskamling = SKSpriteNode(imageNamed: "poskamling")
         poskamling.anchorPoint = CGPoint(x: 0, y: 0)
-        poskamling.setScale(2)
+        poskamling.setScale(2.5)
         poskamling.position = CGPoint(x: frame.maxX - poskamling.size.width, y: frame.minY + (self.scene?.size.height)!/4)
         poskamling.zPosition = 4
         self.addChild(poskamling)
@@ -152,15 +187,36 @@ extension GameScene {
         poskamling.physicsBody?.categoryBitMask = PhysicsCategory.poskamling
         poskamling.physicsBody?.contactTestBitMask = PhysicsCategory.hansip
         
-        let moveAction = SKAction.moveTo(x: frame.minX, duration: 2)
+        let moveAction = SKAction.moveTo(x: frame.minX, duration: 3)
         poskamling.run(SKAction.sequence([moveAction]))
         
     }
     
     func createDistanceBar() {
-        let distanceBar = SKShapeNode(rect: CGRect(x: -frame.width/4, y: frame.height/3, width: frame.width/2, height: 20))
-        distanceBar.zPosition = 4
+        distanceBar = SKShapeNode(rect: CGRect(x: -frame.width/4, y: frame.height/3, width: frame.width/2, height: 20))
+        distanceBar.zPosition = 3
         distanceBar.fillColor = .red
+        
+        
+        hansipMini = SKSpriteNode(imageNamed: "Hansip - walk V3-2.png")
+        hansipMini.setScale(1.5)
+        hansipMini.position = CGPoint(x: distanceBar.frame.minX + distanceBar.frame.width/3, y: distanceBar.frame.midY)
+        hansipMini.zPosition = 5
+        
+        distanceBar.addChild(hansipMini)
+        
+        pocongMini = SKSpriteNode(imageNamed: "Pocong idle-1.png")
+        pocongMini.setScale(1.5)
+        pocongMini.position = CGPoint(x: hansipMini.position.x - (self.frame.width*0.5/4), y: distanceBar.frame.midY)
+        pocongMini.zPosition = 6
+        distanceBar.addChild(pocongMini)
+        
+        let poskamlingMini = SKSpriteNode(imageNamed: "poskamling")
+        poskamlingMini.setScale(1)
+        poskamlingMini.position = CGPoint(x: distanceBar.frame.maxX, y: distanceBar.frame.midY)
+        poskamlingMini.zPosition = 4
+        distanceBar.addChild(poskamlingMini)
+        
         self.addChild(distanceBar)
     }
     
@@ -169,7 +225,7 @@ extension GameScene {
 //MARK: - Animation and Movement (Aesthetic)
 
 extension GameScene {
-
+    
     func hansipRunningAnimation(asset : SKSpriteNode) {
         
         var moving : [SKTexture] = []
@@ -199,6 +255,18 @@ extension GameScene {
 
 extension GameScene {
     
+    func jumpControl() {
+        if inGround == true {
+            if voicePower > -12.0 {
+                print(voicePower)
+                inGround = false
+                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 10.0 * pow(Double(voicePower),2)), duration: 0.1))
+                hansip.removeAction(forKey: "movingAnimation")
+                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+            }
+        }
+    }
+    
     func setupSpawnAction(minSpawnTime: Double, maxSpawnTime : Double) {
         let spawnBgMeteorAction = SKAction.run {
             self.createObstacle(speed: Double.random(in: minSpawnTime...maxSpawnTime))
@@ -208,11 +276,11 @@ extension GameScene {
         
         let sequence = SKAction.sequence([waitAction, spawnBgMeteorAction])
         run(SKAction.repeatForever(sequence), withKey: "spawnObstacle")
-
+        
     }
     
     
-    func finishCriteria(duration : Int) {
+    func finishCriteria(duration : Double) {
         let spawnPoskamling = SKAction.run {
             self.createPoskamling()
         }
@@ -226,6 +294,30 @@ extension GameScene {
         run(sequence, withKey: "spawnPoskamling")
     }
     
+    func playerLose() {
+        if let scene = SKScene(fileNamed: "GameOverScene") {
+            scene.scaleMode = scaleMode
+            view?.presentScene(scene)
+        }
+    }
+    
+    func playerWin() {
+        if let scene = SKScene(fileNamed: "YouWinScene") {
+            scene.scaleMode = scaleMode
+            view?.presentScene(scene)
+        }
+    }
+    
+    @objc func updateProgress() {
+        //example functionality
+        if levelProgress < levelDuration * 4 {
+//            print(levelProgress)
+            pocongMini.position.x = hansipMini.position.x - (hansip.position.x - frame.minX)/4
+            //        let progress = CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
+            hansipMini.position.x = distanceBar.frame.minX + distanceBar.frame.width/3 + CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
+            levelProgress += 1
+        }
+    }
     
 }
 
@@ -238,27 +330,92 @@ extension GameScene : SKPhysicsContactDelegate {
         let bitMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         if (bitMask == PhysicsCategory.land | PhysicsCategory.hansip) {
+            // set hansip running motion
             let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
             
+            inGround = true
+            hansipRunningAnimation(asset: hansip)
+            
+        } else if (bitMask == PhysicsCategory.obstacle | PhysicsCategory.hansip) {
+            // hansip is capable of jumping from on top of obstacle
+            let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
+            print("touch obstacle")
+            inGround = true
             hansipRunningAnimation(asset: hansip)
             
         } else if (bitMask == PhysicsCategory.boundary | PhysicsCategory.hansip) {
             print("lose")
-            if let scene = SKScene(fileNamed: "GameOverScene") {
-                scene.scaleMode = scaleMode
-                view?.presentScene(scene)
-            }
+            playerLose()
             
         } else if (bitMask == PhysicsCategory.poskamling | PhysicsCategory.hansip) {
             print("finish")
-            if let scene = SKScene(fileNamed: "MainMenuScene") {
-                scene.scaleMode = scaleMode
-                view?.presentScene(scene)
-            }
+            playerWin()
             
         }
         
     }
     
+}
+
+//MARK: - Voice Control
+
+extension GameScene : AVAudioRecorderDelegate {
     
+    func runVoiceControl() {
+        recordingSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try recordingSession.setCategory(.playAndRecord, mode: .default)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async {
+                    if allowed {
+                        self.startRecording()
+                    } else {
+                        // failed to record
+                    }
+                }
+            }
+        } catch {
+            // failed to record!
+        }
+    }
+    
+    func startRecording() {
+        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
+        
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 44100,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue
+        ]
+        
+        do {
+            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder.delegate = self
+            audioRecorder.isMeteringEnabled = true
+            audioRecorder.record()
+            
+            //            recordButton.setTitle("Tap to Stop", for: .normal)
+            
+            levelTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.levelTimerCallback), userInfo: nil, repeats: true)
+            
+        } catch {
+            //                finishRecording(success: false)
+            print("gagal")
+        }
+    }
+    
+    @objc func levelTimerCallback() {
+
+        audioRecorder.updateMeters()
+        voicePower = audioRecorder.peakPower(forChannel: 0)
+
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
 }
