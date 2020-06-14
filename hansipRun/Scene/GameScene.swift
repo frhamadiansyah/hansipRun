@@ -31,7 +31,7 @@ class GameScene: SKScene {
     var pocongPosition : CGFloat!
     
     
-    let levelDuration = 20.0
+    var levelDuration = levelObjective.duration
     let minSpawnTime = 1.0
     let maxSpawnTime = 2.0
     var inGround = true
@@ -73,7 +73,7 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if hansip is airborne, he is incapable of jumping
 //        if inGround == true {
-//            if voicePower > -120.0 {
+////            if voicePower > -120.0 {
 //                inGround = false
 //                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 500.0), duration: 0.1))
 //                hansip.removeAction(forKey: "movingAnimation")
@@ -302,7 +302,7 @@ extension GameScene {
     }
     
     func playerWin() {
-        if let scene = SKScene(fileNamed: "MainMenuScene") {
+        if let scene = SKScene(fileNamed: "YouWinScene") {
             scene.scaleMode = scaleMode
             view?.presentScene(scene)
         }
