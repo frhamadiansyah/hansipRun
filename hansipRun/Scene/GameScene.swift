@@ -65,7 +65,7 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         moveBackground()
-        jumpControl()
+        
     }
     
     
@@ -73,9 +73,9 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if hansip is airborne, he is incapable of jumping
 //        if inGround == true {
-////            if voicePower > -120.0 {
+//            if voicePower > -120.0 {
 //                inGround = false
-//                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 500.0), duration: 0.1))
+//                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 300.0), duration: 0.1))
 //                hansip.removeAction(forKey: "movingAnimation")
 //                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
 //            }
@@ -159,7 +159,7 @@ extension GameScene {
         obstacle.zPosition = 3
         self.addChild(obstacle)
         
-        print("ada")
+//        print("ada")
         
         //        let obstacleBody = SKPhysicsBody(rectangleOf: CGSize(width: obstacle.size.width, height: obstacle.size.height))
         let obstacleBody = SKPhysicsBody(texture: SKTexture(imageNamed: obstacleArray[randomInt]), alphaThreshold: 0, size: obstacle.size)
@@ -247,7 +247,6 @@ extension GameScene {
             }
         }
     }
-    
 }
 
 
@@ -257,12 +256,16 @@ extension GameScene {
     
     func jumpControl() {
         if inGround == true {
-            if voicePower > -12.0 {
-                print(voicePower)
+            if voicePower > -9.0 {
+//                print(voicePower)
                 inGround = false
-                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 10.0 * pow(Double(voicePower),2)), duration: 0.1))
+                let temp = pow((9.0 - Double(voicePower)),2)
+                let jumpPower = 150 + temp
+                print(jumpPower)
+                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: jumpPower), duration: 0.1))
                 hansip.removeAction(forKey: "movingAnimation")
                 hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+                
             }
         }
     }
@@ -332,14 +335,16 @@ extension GameScene : SKPhysicsContactDelegate {
         if (bitMask == PhysicsCategory.land | PhysicsCategory.hansip) {
             // set hansip running motion
             let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
-            
+//            if inGround == false {
             inGround = true
             hansipRunningAnimation(asset: hansip)
+//            }
+            
             
         } else if (bitMask == PhysicsCategory.obstacle | PhysicsCategory.hansip) {
             // hansip is capable of jumping from on top of obstacle
             let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
-            print("touch obstacle")
+//            print("touch obstacle")
             inGround = true
             hansipRunningAnimation(asset: hansip)
             
@@ -410,7 +415,8 @@ extension GameScene : AVAudioRecorderDelegate {
     @objc func levelTimerCallback() {
 
         audioRecorder.updateMeters()
-        voicePower = audioRecorder.peakPower(forChannel: 0)
+        voicePower = audioRecorder.averagePower(forChannel: 0)
+        jumpControl()
 
     }
     
