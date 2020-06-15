@@ -35,7 +35,7 @@ class GameOverScene: SKScene {
     func addRetryLabel() {
         tapToRetryLabel = SKLabelNode(text: "Tap anywhere to retry")
         tapToRetryLabel?.name = "tapToRetryLabel"
-        tapToRetryLabel?.fontSize = 40
+        tapToRetryLabel?.fontSize = 30
         tapToRetryLabel?.position = CGPoint(x: 0, y: 0)
         tapToRetryLabel?.zPosition = 2
         print("retry")
