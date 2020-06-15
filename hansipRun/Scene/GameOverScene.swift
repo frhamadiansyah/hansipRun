@@ -14,6 +14,7 @@ class GameOverScene: SKScene {
     // character
     var hansip : SKSpriteNode!
     var ground : SKSpriteNode!
+    var pocong : SKSpriteNode!
     
     var youDeadLabel : SKLabelNode!
     var tapToRetryLabel : SKLabelNode!
@@ -24,6 +25,7 @@ class GameOverScene: SKScene {
         addRetryLabel()
         createGround()
         createHansip()
+        createPocong()
     }
     
     func addYouDeadLabel() {
@@ -63,10 +65,22 @@ class GameOverScene: SKScene {
         hansip.setScale(3)
         hansip.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
-        hansip.position = CGPoint(x: frame.midX, y: frame.minY + ground.size.height/2 + hansip.size.height/2)
+        hansip.position = CGPoint(x: frame.maxX, y: frame.minY + ground.size.height/2 + hansip.size.height/2)
         hansip.zPosition = 2
         
         self.addChild(hansip)
+    }
+    
+    func createPocong() {
+        pocong = SKSpriteNode(imageNamed: "Hansip - Stand-1.png")
+        pocong.name = "hansip"
+        pocong.setScale(3)
+        pocong.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        
+        pocong.position = CGPoint(x: frame.minX, y: frame.minY + ground.size.height/2 + pocong.size.height/2)
+        pocong.zPosition = 2
+        
+        self.addChild(pocong)
     }
     
     func createGround() {
