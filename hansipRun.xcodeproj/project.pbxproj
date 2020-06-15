@@ -10,6 +10,8 @@
 		750257D42496AB1F004BC3DD /* YouWinScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750257D32496AB1F004BC3DD /* YouWinScene.swift */; };
 		750257D62496AB2F004BC3DD /* YouWinScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 750257D52496AB2F004BC3DD /* YouWinScene.sks */; };
 		750257D82496AFC0004BC3DD /* levelObjective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750257D72496AFC0004BC3DD /* levelObjective.swift */; };
+		750257DA249784AA004BC3DD /* DeadCutScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 750257D9249784AA004BC3DD /* DeadCutScene.sks */; };
+		750257DC249784C2004BC3DD /* DeadCutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750257DB249784C2004BC3DD /* DeadCutScene.swift */; };
 		7537E34924921D8100FB7D39 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E34824921D8100FB7D39 /* State.swift */; };
 		7537E3512492761C00FB7D39 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7537E3502492761C00FB7D39 /* MainMenuScene.sks */; };
 		7537E3532492763B00FB7D39 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E3522492763B00FB7D39 /* MainMenuScene.swift */; };
@@ -24,12 +26,15 @@
 		75669B832490F5AD00BC0354 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75669B812490F5AD00BC0354 /* Main.storyboard */; };
 		75669B852490F5AF00BC0354 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75669B842490F5AF00BC0354 /* Assets.xcassets */; };
 		75669B882490F5AF00BC0354 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75669B862490F5AF00BC0354 /* LaunchScreen.storyboard */; };
+		B78DC10E24975F8A00F80EDC /* jump-effect.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC10D24975F8A00F80EDC /* jump-effect.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		750257D32496AB1F004BC3DD /* YouWinScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouWinScene.swift; sourceTree = "<group>"; };
 		750257D52496AB2F004BC3DD /* YouWinScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = YouWinScene.sks; sourceTree = "<group>"; };
 		750257D72496AFC0004BC3DD /* levelObjective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = levelObjective.swift; sourceTree = "<group>"; };
+		750257D9249784AA004BC3DD /* DeadCutScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DeadCutScene.sks; sourceTree = "<group>"; };
+		750257DB249784C2004BC3DD /* DeadCutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadCutScene.swift; sourceTree = "<group>"; };
 		7537E34824921D8100FB7D39 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		7537E3502492761C00FB7D39 /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
 		7537E3522492763B00FB7D39 /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
@@ -46,6 +51,7 @@
 		75669B842490F5AF00BC0354 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75669B872490F5AF00BC0354 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		75669B892490F5AF00BC0354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B78DC10D24975F8A00F80EDC /* jump-effect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "jump-effect.wav"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +78,8 @@
 				75531E192494B3380011E557 /* GameOverScene.swift */,
 				750257D32496AB1F004BC3DD /* YouWinScene.swift */,
 				750257D52496AB2F004BC3DD /* YouWinScene.sks */,
+				750257D9249784AA004BC3DD /* DeadCutScene.sks */,
+				750257DB249784C2004BC3DD /* DeadCutScene.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -95,6 +103,7 @@
 		75669B762490F5AD00BC0354 /* hansipRun */ = {
 			isa = PBXGroup;
 			children = (
+				B78DC10A24975AFB00F80EDC /* Sounds */,
 				7537E35424930F6500FB7D39 /* Scene */,
 				75669B772490F5AD00BC0354 /* AppDelegate.swift */,
 				75669B7F2490F5AD00BC0354 /* GameViewController.swift */,
@@ -106,6 +115,14 @@
 				750257D72496AFC0004BC3DD /* levelObjective.swift */,
 			);
 			path = hansipRun;
+			sourceTree = "<group>";
+		};
+		B78DC10A24975AFB00F80EDC /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				B78DC10D24975F8A00F80EDC /* jump-effect.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,9 +188,11 @@
 				75669B7A2490F5AD00BC0354 /* GameScene.sks in Resources */,
 				75669B852490F5AF00BC0354 /* Assets.xcassets in Resources */,
 				75669B882490F5AF00BC0354 /* LaunchScreen.storyboard in Resources */,
+				750257DA249784AA004BC3DD /* DeadCutScene.sks in Resources */,
 				7537E3512492761C00FB7D39 /* MainMenuScene.sks in Resources */,
 				75669B7C2490F5AD00BC0354 /* Actions.sks in Resources */,
 				750257D62496AB2F004BC3DD /* YouWinScene.sks in Resources */,
+				B78DC10E24975F8A00F80EDC /* jump-effect.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +212,7 @@
 				750257D42496AB1F004BC3DD /* YouWinScene.swift in Sources */,
 				75669B802490F5AD00BC0354 /* GameViewController.swift in Sources */,
 				75669B782490F5AD00BC0354 /* AppDelegate.swift in Sources */,
+				750257DC249784C2004BC3DD /* DeadCutScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
