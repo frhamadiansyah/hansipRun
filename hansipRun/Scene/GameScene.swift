@@ -65,7 +65,7 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         moveBackground()
-//        jumpControl()
+        //        jumpControl()
         
     }
     
@@ -73,15 +73,15 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if hansip is airborne, he is incapable of jumping
-//        if inGround == true {
-//            if voicePower > -120.0 {
-//                inGround = false
-//                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 300.0), duration: 0.1))
-//                hansip.removeAction(forKey: "movingAnimation")
-//                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
-//            }
-//
-//        }
+        //        if inGround == true {
+        //            if voicePower > -120.0 {
+        //                inGround = false
+        //                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 300.0), duration: 0.1))
+        //                hansip.removeAction(forKey: "movingAnimation")
+        //                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+        //            }
+        //
+        //        }
         
         
     }
@@ -160,7 +160,7 @@ extension GameScene {
         obstacle.zPosition = 3
         self.addChild(obstacle)
         
-//        print("ada")
+        //        print("ada")
         
         //        let obstacleBody = SKPhysicsBody(rectangleOf: CGSize(width: obstacle.size.width, height: obstacle.size.height))
         let obstacleBody = SKPhysicsBody(texture: SKTexture(imageNamed: obstacleArray[randomInt]), alphaThreshold: 0, size: obstacle.size)
@@ -256,26 +256,26 @@ extension GameScene {
 extension GameScene {
     
     func jumpControl() {
-           if inGround == true {
-               if voicePower > -15.0 {
-                   inGround = false
-                   let temp = pow((15.0 + Double(voicePower)), 2)
-                   let jumpPower = 300 + temp
-                  
-                   print("voicePower \(temp)")
-                   print("voicePower \(voicePower)")
-    
-//                   let jumpHeight = 10.0 * pow(voicePower, 2)
-                   let jumpImpulse =   SKAction.applyImpulse(CGVector(dx: 0.0, dy: Double(jumpPower)), duration: 0.1)
-                   let jumpSound = SKAction.playSoundFileNamed("jump-effect.wav", waitForCompletion: false)
-                  
-                   hansip.run(SKAction.group([jumpImpulse, jumpSound]))
-                   hansip.removeAction(forKey: "movingAnimation")
-                   hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
-                  
-               }
-           }
-       }
+        if inGround == true {
+            if voicePower > -20.0 {
+                inGround = false
+                let temp = pow((20.0 + Double(voicePower)), 2)
+                let jumpPower = 350 + temp
+                
+                print("voicePower \(temp)")
+                print("voicePower \(voicePower)")
+                
+                //                   let jumpHeight = 10.0 * pow(voicePower, 2)
+                let jumpImpulse =   SKAction.applyImpulse(CGVector(dx: 0.0, dy: Double(jumpPower)), duration: 0.1)
+                let jumpSound = SKAction.playSoundFileNamed("jump-effect.wav", waitForCompletion: false)
+                
+                hansip.run(SKAction.group([jumpImpulse, jumpSound]))
+                hansip.removeAction(forKey: "movingAnimation")
+                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+                
+            }
+        }
+    }
     
     func setupSpawnAction(minSpawnTime: Double, maxSpawnTime : Double) {
         let spawnBgMeteorAction = SKAction.run {
@@ -321,7 +321,7 @@ extension GameScene {
     @objc func updateProgress() {
         //example functionality
         if levelProgress < levelDuration * 4 {
-//            print(levelProgress)
+            //            print(levelProgress)
             pocongMini.position.x = hansipMini.position.x - (hansip.position.x - frame.minX)/4
             //        let progress = CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
             hansipMini.position.x = distanceBar.frame.minX + distanceBar.frame.width/3 + CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
@@ -345,13 +345,13 @@ extension GameScene : SKPhysicsContactDelegate {
             print("... touching grounds")
             inGround = true
             hansipRunningAnimation(asset: hansip)
-//            }
+            //            }
             
             
         } else if (bitMask == PhysicsCategory.obstacle | PhysicsCategory.hansip) {
             // hansip is capable of jumping from on top of obstacle
             let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
-//            print("touch obstacle")
+            //            print("touch obstacle")
             inGround = true
             hansipRunningAnimation(asset: hansip)
             
@@ -423,11 +423,11 @@ extension GameScene : AVAudioRecorderDelegate {
     }
     
     @objc func levelTimerCallback() {
-
+        
         audioRecorder.updateMeters()
         voicePower = audioRecorder.averagePower(forChannel: 0)
         jumpControl()
-
+        
     }
     
     func getDocumentsDirectory() -> URL {
