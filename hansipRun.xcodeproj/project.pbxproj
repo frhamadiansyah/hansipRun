@@ -10,6 +10,8 @@
 		750257D42496AB1F004BC3DD /* YouWinScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750257D32496AB1F004BC3DD /* YouWinScene.swift */; };
 		750257D62496AB2F004BC3DD /* YouWinScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 750257D52496AB2F004BC3DD /* YouWinScene.sks */; };
 		750257D82496AFC0004BC3DD /* levelObjective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750257D72496AFC0004BC3DD /* levelObjective.swift */; };
+		750257DA249784AA004BC3DD /* DeadCutScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 750257D9249784AA004BC3DD /* DeadCutScene.sks */; };
+		750257DC249784C2004BC3DD /* DeadCutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750257DB249784C2004BC3DD /* DeadCutScene.swift */; };
 		7537E34924921D8100FB7D39 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E34824921D8100FB7D39 /* State.swift */; };
 		7537E3512492761C00FB7D39 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7537E3502492761C00FB7D39 /* MainMenuScene.sks */; };
 		7537E3532492763B00FB7D39 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E3522492763B00FB7D39 /* MainMenuScene.swift */; };
@@ -36,6 +38,8 @@
 		750257D32496AB1F004BC3DD /* YouWinScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouWinScene.swift; sourceTree = "<group>"; };
 		750257D52496AB2F004BC3DD /* YouWinScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = YouWinScene.sks; sourceTree = "<group>"; };
 		750257D72496AFC0004BC3DD /* levelObjective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = levelObjective.swift; sourceTree = "<group>"; };
+		750257D9249784AA004BC3DD /* DeadCutScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DeadCutScene.sks; sourceTree = "<group>"; };
+		750257DB249784C2004BC3DD /* DeadCutScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadCutScene.swift; sourceTree = "<group>"; };
 		7537E34824921D8100FB7D39 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		7537E3502492761C00FB7D39 /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
 		7537E3522492763B00FB7D39 /* MainMenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
@@ -85,6 +89,8 @@
 				75531E192494B3380011E557 /* GameOverScene.swift */,
 				750257D32496AB1F004BC3DD /* YouWinScene.swift */,
 				750257D52496AB2F004BC3DD /* YouWinScene.sks */,
+				750257D9249784AA004BC3DD /* DeadCutScene.sks */,
+				750257DB249784C2004BC3DD /* DeadCutScene.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -199,6 +205,7 @@
 				B78DC113249776A500F80EDC /* backsong-effect-2.wav in Resources */,
 				75669B852490F5AF00BC0354 /* Assets.xcassets in Resources */,
 				75669B882490F5AF00BC0354 /* LaunchScreen.storyboard in Resources */,
+				750257DA249784AA004BC3DD /* DeadCutScene.sks in Resources */,
 				7537E3512492761C00FB7D39 /* MainMenuScene.sks in Resources */,
 				B78DC110249771E900F80EDC /* backsong.wav in Resources */,
 				75669B7C2490F5AD00BC0354 /* Actions.sks in Resources */,
@@ -225,6 +232,7 @@
 				750257D42496AB1F004BC3DD /* YouWinScene.swift in Sources */,
 				75669B802490F5AD00BC0354 /* GameViewController.swift in Sources */,
 				75669B782490F5AD00BC0354 /* AppDelegate.swift in Sources */,
+				750257DC249784C2004BC3DD /* DeadCutScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +377,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W5ZPF478J8;
+				DEVELOPMENT_TEAM = JPMPS53HUZ;
 				INFOPLIST_FILE = hansipRun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -388,7 +396,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W5ZPF478J8;
+				DEVELOPMENT_TEAM = JPMPS53HUZ;
 				INFOPLIST_FILE = hansipRun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

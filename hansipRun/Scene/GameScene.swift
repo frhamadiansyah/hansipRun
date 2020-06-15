@@ -153,7 +153,7 @@ extension GameScene {
         obstacle.zPosition = 3
         self.addChild(obstacle)
         
-//        print("ada")
+        //        print("ada")
         
         //        let obstacleBody = SKPhysicsBody(rectangleOf: CGSize(width: obstacle.size.width, height: obstacle.size.height))
         let obstacleBody = SKPhysicsBody(texture: SKTexture(imageNamed: obstacleArray[randomInt]), alphaThreshold: 0, size: obstacle.size)
@@ -250,16 +250,16 @@ extension GameScene {
     
     func jumpControl() {
         if inGround == true {
-            if voicePower > -9.0 {
+            if voicePower > -20.0 {
                 inGround = false
-                let temp = pow((9.0 - Double(voicePower)), 2)
-                let jumpPower = 150 + temp
+                let temp = pow((20.0 + Double(voicePower)), 2)
+                let jumpPower = 350 + temp
                 
+                print("voicePower \(temp)")
                 print("voicePower \(voicePower)")
-                print("voicePower \(jumpPower)")
-
-                let jumpHeight = 10.0 * pow(voicePower, 2)
-                let jumpImpulse =   SKAction.applyImpulse(CGVector(dx: 0.0, dy: Double(jumpHeight)), duration: 0.1)
+                
+                //                   let jumpHeight = 10.0 * pow(voicePower, 2)
+                let jumpImpulse =   SKAction.applyImpulse(CGVector(dx: 0.0, dy: Double(jumpPower)), duration: 0.1)
                 let jumpSound = SKAction.playSoundFileNamed("jump-effect.wav", waitForCompletion: false)
                 
                 hansip.run(SKAction.group([jumpImpulse, jumpSound]))
@@ -288,7 +288,7 @@ extension GameScene {
         }
         
         let levelDuration = SKAction.wait(forDuration: TimeInterval(duration))
-        let waitAction = SKAction.wait(forDuration: 5)
+        let waitAction = SKAction.wait(forDuration: 3)
         let removeAction = SKAction.run {
             self.removeAction(forKey: "spawnObstacle")
         }
@@ -297,23 +297,24 @@ extension GameScene {
     }
     
     func playerLose() {
-        if let scene = SKScene(fileNamed: "GameOverScene") {
+        if let scene = SKScene(fileNamed: "DeadCutScene") {
             scene.scaleMode = scaleMode
             view?.presentScene(scene)
         }
     }
     
     func playerWin() {
+        let transition = SKTransition.fade(with: .yellow, duration: 1)
         if let scene = SKScene(fileNamed: "YouWinScene") {
             scene.scaleMode = scaleMode
-            view?.presentScene(scene)
+            view?.presentScene(scene, transition: transition)
         }
     }
     
     @objc func updateProgress() {
         //example functionality
         if levelProgress < levelDuration * 4 {
-//            print(levelProgress)
+            //            print(levelProgress)
             pocongMini.position.x = hansipMini.position.x - (hansip.position.x - frame.minX)/4
             //        let progress = CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
             hansipMini.position.x = distanceBar.frame.minX + distanceBar.frame.width/3 + CGFloat(levelProgress/(levelDuration * 4))*distanceBar.frame.width*2/3
@@ -340,14 +341,18 @@ extension GameScene : SKPhysicsContactDelegate {
         } else if (bitMask == PhysicsCategory.obstacle | PhysicsCategory.hansip) {
             // hansip is capable of jumping from on top of obstacle
             let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
-//            print("touch obstacle")
+            //            print("touch obstacle")
             inGround = true
             hansipRunningAnimation(asset: hansip)
             
         } else if (bitMask == PhysicsCategory.boundary | PhysicsCategory.hansip) {
             self.backsongAudio.stop()
-            print("lose")
-            playerLose()
+
+            if inGround {
+                print("lose")
+                playerLose()
+            }
+            
         } else if (bitMask == PhysicsCategory.poskamling | PhysicsCategory.hansip) {
             self.backsongAudio.stop()
             print("finish")
@@ -364,7 +369,7 @@ extension GameScene : AVAudioRecorderDelegate {
         recordingSession = AVAudioSession.sharedInstance()
         
         do {
-            try recordingSession.setCategory(.playAndRecord, mode: .default)
+            try recordingSession.setCategory(.record, mode: .default)
             try recordingSession.setActive(true)
             recordingSession.requestRecordPermission() { [unowned self] allowed in
                 DispatchQueue.main.async {
@@ -398,7 +403,7 @@ extension GameScene : AVAudioRecorderDelegate {
             
             //            recordButton.setTitle("Tap to Stop", for: .normal)
             
-            levelTimer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.levelTimerCallback), userInfo: nil, repeats: true)
+            levelTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.levelTimerCallback), userInfo: nil, repeats: true)
             
         } catch {
             //                finishRecording(success: false)
@@ -407,11 +412,11 @@ extension GameScene : AVAudioRecorderDelegate {
     }
     
     @objc func levelTimerCallback() {
-
+        
         audioRecorder.updateMeters()
         voicePower = audioRecorder.averagePower(forChannel: 0)
         jumpControl()
-
+        
     }
     
     func getDocumentsDirectory() -> URL {
