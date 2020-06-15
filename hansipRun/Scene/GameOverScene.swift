@@ -11,6 +11,8 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
+    // character
+    
     var youDeadLabel : SKLabelNode!
     var tapToRetryLabel : SKLabelNode!
     
@@ -18,13 +20,14 @@ class GameOverScene: SKScene {
         createBackground()
         addYouDeadLabel()
         addRetryLabel()
+
     }
     
     func addYouDeadLabel() {
-        youDeadLabel = SKLabelNode(text: "You are DEAD")
+        youDeadLabel = SKLabelNode(text: "You are DEAD!!")
         youDeadLabel?.name = "youDeadLabel"
         youDeadLabel?.fontSize = 50
-        youDeadLabel?.position = CGPoint(x: 0, y: 0)
+        youDeadLabel?.position = CGPoint(x: 0, y: self.frame.height/8)
         youDeadLabel?.zPosition = 1
         self.addChild(youDeadLabel!)
     }
@@ -33,7 +36,7 @@ class GameOverScene: SKScene {
         tapToRetryLabel = SKLabelNode(text: "Tap anywhere to retry")
         tapToRetryLabel?.name = "tapToRetryLabel"
         tapToRetryLabel?.fontSize = 40
-        tapToRetryLabel?.position = CGPoint(x: 0, y: -self.frame.height/5)
+        tapToRetryLabel?.position = CGPoint(x: 0, y: 0)
         tapToRetryLabel?.zPosition = 2
         print("retry")
         self.addChild(tapToRetryLabel!)
@@ -51,6 +54,7 @@ class GameOverScene: SKScene {
         
     }
     
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if let scene = SKScene(fileNamed: "GameScene") {
@@ -58,6 +62,7 @@ class GameOverScene: SKScene {
             view?.presentScene(scene)
         }
         
-        
     }
+    
+    
 }

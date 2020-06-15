@@ -296,7 +296,7 @@ extension GameScene {
         }
         
         let levelDuration = SKAction.wait(forDuration: TimeInterval(duration))
-        let waitAction = SKAction.wait(forDuration: 5)
+        let waitAction = SKAction.wait(forDuration: 3)
         let removeAction = SKAction.run {
             self.removeAction(forKey: "spawnObstacle")
         }
@@ -305,16 +305,17 @@ extension GameScene {
     }
     
     func playerLose() {
-        if let scene = SKScene(fileNamed: "GameOverScene") {
+        if let scene = SKScene(fileNamed: "DeadCutScene") {
             scene.scaleMode = scaleMode
             view?.presentScene(scene)
         }
     }
     
     func playerWin() {
+        let transition = SKTransition.fade(with: .yellow, duration: 1)
         if let scene = SKScene(fileNamed: "YouWinScene") {
             scene.scaleMode = scaleMode
-            view?.presentScene(scene)
+            view?.presentScene(scene, transition: transition)
         }
     }
     
