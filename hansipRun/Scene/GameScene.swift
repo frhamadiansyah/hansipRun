@@ -116,12 +116,24 @@ extension GameScene {
     func createBackground() {
         for i in 0...3 {
             let sky = SKSpriteNode(imageNamed: "background-sky")
+
             sky.name = "sky"
             sky.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!)
             sky.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             sky.position = CGPoint(x: CGFloat(i) * sky.size.width, y: 0)
-            
+
             self.addChild(sky)
+
+            let tree = SKSpriteNode(imageNamed: "tree-groups")
+
+            tree.name = "tree"
+            tree.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)! / 3)
+            tree.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            tree.position = CGPoint(x: CGFloat(i) * tree.size.width, y: frame.minY + (self.scene?.size.height)!/4 + tree.size.height/2)
+
+            self.addChild(tree)
+            
+            
             
         }
     }
@@ -233,9 +245,17 @@ extension GameScene {
     }
     
     func moveBackground() {
-        self.enumerateChildNodes(withName: "background-sky") { (node, error) in
+        self.enumerateChildNodes(withName: "sky") { (node, error) in
             node.position.x -= 3
-            
+
+            if node.position.x < -((self.scene?.size.width)!) {
+                node.position.x += (self.scene?.size.width)! * 3
+            }
+        }
+        self.enumerateChildNodes(withName: "tree") { (node, error) in
+            node.position.x -= 3
+//            print("move")
+
             if node.position.x < -((self.scene?.size.width)!) {
                 node.position.x += (self.scene?.size.width)! * 3
             }
@@ -346,9 +366,9 @@ extension GameScene : SKPhysicsContactDelegate {
             hansipRunningAnimation(asset: hansip)
             
         } else if (bitMask == PhysicsCategory.boundary | PhysicsCategory.hansip) {
-            self.backsongAudio.stop()
 
             if inGround {
+                self.backsongAudio.stop()
                 print("lose")
                 playerLose()
             }
