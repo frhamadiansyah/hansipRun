@@ -37,6 +37,8 @@ class GameScene: SKScene {
     var inGround = true
     var levelProgress = 0.0
     
+    var backsongAudio = AVAudioPlayer()
+    
     override func didMove(to view: SKView) {
         
         runVoiceControl()
@@ -54,39 +56,30 @@ class GameScene: SKScene {
         createDistanceBar()
         setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
         finishCriteria(duration: levelDuration)
+        setupBackSongAudio()
         
         // set distanceBar boundary
         Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
-        
-        // jump
         
     }
     
     
     override func update(_ currentTime: TimeInterval) {
         moveBackground()
-        //        jumpControl()
-        
     }
-    
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if hansip is airborne, he is incapable of jumping
-        //        if inGround == true {
-        //            if voicePower > -120.0 {
-        //                inGround = false
-        //                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 300.0), duration: 0.1))
-        //                hansip.removeAction(forKey: "movingAnimation")
-        //                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
-        //            }
-        //
-        //        }
-        
-        
+//        if inGround == true {
+//            if voicePower > -120.0 {
+//                inGround = false
+//                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 300.0), duration: 0.1))
+//                hansip.removeAction(forKey: "movingAnimation")
+//                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+//            }
+//
+//        }
     }
-    
-    
 }
 
 
@@ -286,7 +279,6 @@ extension GameScene {
         
         let sequence = SKAction.sequence([waitAction, spawnBgMeteorAction])
         run(SKAction.repeatForever(sequence), withKey: "spawnObstacle")
-        
     }
     
     
@@ -346,9 +338,6 @@ extension GameScene : SKPhysicsContactDelegate {
             print("... touching grounds")
             inGround = true
             hansipRunningAnimation(asset: hansip)
-            //            }
-            
-            
         } else if (bitMask == PhysicsCategory.obstacle | PhysicsCategory.hansip) {
             // hansip is capable of jumping from on top of obstacle
             let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
@@ -357,20 +346,19 @@ extension GameScene : SKPhysicsContactDelegate {
             hansipRunningAnimation(asset: hansip)
             
         } else if (bitMask == PhysicsCategory.boundary | PhysicsCategory.hansip) {
-            print("lose")
+            self.backsongAudio.stop()
+
             if inGround {
                 print("lose")
                 playerLose()
             }
             
         } else if (bitMask == PhysicsCategory.poskamling | PhysicsCategory.hansip) {
+            self.backsongAudio.stop()
             print("finish")
             playerWin()
-            
         }
-        
     }
-    
 }
 
 //MARK: - Voice Control
