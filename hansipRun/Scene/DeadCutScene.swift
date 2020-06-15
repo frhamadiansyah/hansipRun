@@ -99,7 +99,7 @@ class DeadCutScene: SKScene {
         }
         
 //        let pocongMovingAnimation = SKAction.animate(with: pocongMoving, timePerFrame: 1/12)
-        let movePocong = SKAction.moveTo(x: frame.midX, duration: TimeInterval(2))
+        let movePocong = SKAction.moveTo(x: frame.midX + hansip.frame.width/2, duration: TimeInterval(2))
         let animatePocong = SKAction.repeatForever(SKAction.animate(with: pocongMoving, timePerFrame: 1/12))
         let runPocong = SKAction.run {
             self.pocong.run(movePocong)
