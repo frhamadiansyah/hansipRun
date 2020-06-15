@@ -259,8 +259,13 @@ extension GameScene {
         if inGround == true {
             if voicePower > -12.0 {
                 print(voicePower)
+                
                 inGround = false
-                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 10.0 * pow(Double(voicePower),2)), duration: 0.1))
+                let jumpHeight = 10.0 * pow(voicePower, 2)
+                let jumpImpulse =   SKAction.applyImpulse(CGVector(dx: 0.0, dy: Double(jumpHeight)), duration: 0.1)
+                let jumpSound = SKAction.playSoundFileNamed("jump-effect.wav", waitForCompletion: false)
+                
+                hansip.run(SKAction.group([jumpImpulse, jumpSound]))                
                 hansip.removeAction(forKey: "movingAnimation")
                 hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
             }
@@ -332,7 +337,7 @@ extension GameScene : SKPhysicsContactDelegate {
         if (bitMask == PhysicsCategory.land | PhysicsCategory.hansip) {
             // set hansip running motion
             let hansip = (contact.bodyA.node?.name == "hansip" ? contact.bodyA.node : contact.bodyB.node) as! SKSpriteNode
-            
+            print("... touching grounds")
             inGround = true
             hansipRunningAnimation(asset: hansip)
             
@@ -399,7 +404,7 @@ extension GameScene : AVAudioRecorderDelegate {
             
             //            recordButton.setTitle("Tap to Stop", for: .normal)
             
-            levelTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.levelTimerCallback), userInfo: nil, repeats: true)
+            levelTimer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.levelTimerCallback), userInfo: nil, repeats: true)
             
         } catch {
             //                finishRecording(success: false)
