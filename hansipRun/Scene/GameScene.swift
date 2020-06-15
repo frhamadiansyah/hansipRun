@@ -65,6 +65,7 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         moveBackground()
+//        jumpControl()
         
     }
     
@@ -255,26 +256,26 @@ extension GameScene {
 extension GameScene {
     
     func jumpControl() {
-        if inGround == true {
-            if voicePower > -9.0 {
-                inGround = false
-                let temp = pow((9.0 - Double(voicePower)), 2)
-                let jumpPower = 150 + temp
-                
-                print("voicePower \(voicePower)")
-                print("voicePower \(jumpPower)")
-
-                let jumpHeight = 10.0 * pow(voicePower, 2)
-                let jumpImpulse =   SKAction.applyImpulse(CGVector(dx: 0.0, dy: Double(jumpHeight)), duration: 0.1)
-                let jumpSound = SKAction.playSoundFileNamed("jump-effect.wav", waitForCompletion: false)
-                
-                hansip.run(SKAction.group([jumpImpulse, jumpSound]))
-                hansip.removeAction(forKey: "movingAnimation")
-                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
-                
-            }
-        }
-    }
+           if inGround == true {
+               if voicePower > -15.0 {
+                   inGround = false
+                   let temp = pow((15.0 + Double(voicePower)), 2)
+                   let jumpPower = 300 + temp
+                  
+                   print("voicePower \(temp)")
+                   print("voicePower \(voicePower)")
+    
+//                   let jumpHeight = 10.0 * pow(voicePower, 2)
+                   let jumpImpulse =   SKAction.applyImpulse(CGVector(dx: 0.0, dy: Double(jumpPower)), duration: 0.1)
+                   let jumpSound = SKAction.playSoundFileNamed("jump-effect.wav", waitForCompletion: false)
+                  
+                   hansip.run(SKAction.group([jumpImpulse, jumpSound]))
+                   hansip.removeAction(forKey: "movingAnimation")
+                   hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
+                  
+               }
+           }
+       }
     
     func setupSpawnAction(minSpawnTime: Double, maxSpawnTime : Double) {
         let spawnBgMeteorAction = SKAction.run {
@@ -356,7 +357,10 @@ extension GameScene : SKPhysicsContactDelegate {
             
         } else if (bitMask == PhysicsCategory.boundary | PhysicsCategory.hansip) {
             print("lose")
-            playerLose()
+            if inGround {
+                print("lose")
+                playerLose()
+            }
             
         } else if (bitMask == PhysicsCategory.poskamling | PhysicsCategory.hansip) {
             print("finish")
@@ -376,7 +380,7 @@ extension GameScene : AVAudioRecorderDelegate {
         recordingSession = AVAudioSession.sharedInstance()
         
         do {
-            try recordingSession.setCategory(.playAndRecord, mode: .default)
+            try recordingSession.setCategory(.record, mode: .default)
             try recordingSession.setActive(true)
             recordingSession.requestRecordPermission() { [unowned self] allowed in
                 DispatchQueue.main.async {
@@ -410,7 +414,7 @@ extension GameScene : AVAudioRecorderDelegate {
             
             //            recordButton.setTitle("Tap to Stop", for: .normal)
             
-            levelTimer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.levelTimerCallback), userInfo: nil, repeats: true)
+            levelTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.levelTimerCallback), userInfo: nil, repeats: true)
             
         } catch {
             //                finishRecording(success: false)
