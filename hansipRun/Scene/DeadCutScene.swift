@@ -34,9 +34,18 @@ class DeadCutScene: SKScene {
         sky.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!)
         sky.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         sky.position = CGPoint(x: 0, y: 0)
-        sky.zPosition = 0
+        sky.zPosition = -1
         
         self.addChild(sky)
+        
+        let tree = SKSpriteNode(imageNamed: "tree-groups")
+        tree.name = "tree"
+        tree.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)! / 3)
+        tree.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        tree.position = CGPoint(x: 0, y: frame.minY + (self.scene?.size.height)!/4 + tree.size.height/2)
+        tree.zPosition = 0
+
+        self.addChild(tree)
         
     }
     
