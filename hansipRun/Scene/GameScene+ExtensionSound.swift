@@ -11,7 +11,7 @@ import AVFoundation
 
 extension GameScene {
     func setupBackSongAudio() {
-        let sound = Bundle.main.path(forResource: "juhani-junkala-adventure-backsong", ofType: "wav")
+        let sound = Bundle.main.path(forResource: "//juhani-junkala-adventure-backsong", ofType: "wav")
         
         do {
             backsongAudio = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
@@ -24,5 +24,15 @@ extension GameScene {
     
     func removeBackSong() {
         backsongAudio.stop()
+    }
+    
+    func setupJumpEffectAudio() {
+        let jumpSound = Bundle.main.path(forResource: "jump-effect", ofType: "wav")
+        
+        do {
+            jumpAudio = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: jumpSound!))
+        } catch {
+            print(error)
+        }
     }
 }

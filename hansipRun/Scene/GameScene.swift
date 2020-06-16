@@ -37,7 +37,9 @@ class GameScene: SKScene {
     var inGround = true
     var levelProgress = 0.0
     
+    // audio variables
     var backsongAudio = AVAudioPlayer()
+    var jumpAudio = AVAudioPlayer()
     
     override func didMove(to view: SKView) {
         
@@ -64,6 +66,7 @@ class GameScene: SKScene {
 //        setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
         finishCriteria(duration: levelDuration)
         setupBackSongAudio()
+        setupJumpEffectAudio()
         
         // set distanceBar boundary
         Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
@@ -274,20 +277,15 @@ extension GameScene {
         if inGround == true {
             if voicePower > -20.0 {
                 inGround = false
+                
                 let temp = pow((20.0 + Double(voicePower)), 2)
                 let jumpPower = 350 + temp
-                
-                print("voicePower \(temp)")
-                print("voicePower \(voicePower)")
-                
-                //                   let jumpHeight = 10.0 * pow(voicePower, 2)
                 let jumpImpulse =   SKAction.applyImpulse(CGVector(dx: 0.0, dy: Double(jumpPower)), duration: 0.1)
-                let jumpSound = SKAction.playSoundFileNamed("jump-effect.wav", waitForCompletion: false)
                 
-                hansip.run(SKAction.group([jumpImpulse, jumpSound]))
+                jumpAudio.play()
+                hansip.run(jumpImpulse)
                 hansip.removeAction(forKey: "movingAnimation")
                 hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
-                
             }
         }
     }
