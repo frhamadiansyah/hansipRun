@@ -54,7 +54,14 @@ class GameScene: SKScene {
         createGround()
         createHansip()
         createDistanceBar()
-        setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
+        
+        let spawnObstacle = SKAction.run {
+            self.setupSpawnAction(minSpawnTime: self.minSpawnTime, maxSpawnTime: self.maxSpawnTime)
+        }
+        let waitAction = SKAction.wait(forDuration: 3)
+        run(SKAction.sequence([waitAction, spawnObstacle]))
+        
+//        setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
         finishCriteria(duration: levelDuration)
         setupBackSongAudio()
         
@@ -309,12 +316,24 @@ extension GameScene {
             self.createPoskamling()
         }
         
+        let introductionLabel = SKLabelNode(text: "SCREAM to jump!")
+        introductionLabel.name = "startLabel"
+        introductionLabel.fontName = "Minecraft"
+        introductionLabel.fontSize = 50
+        introductionLabel.position = CGPoint(x: 0, y: self.frame.height/8)
+        introductionLabel.zPosition = 1
+        print("start")
+        self.addChild(introductionLabel)
+        
+        let removeLabel = SKAction.run {
+            introductionLabel.removeFromParent()
+        }
         let levelDuration = SKAction.wait(forDuration: TimeInterval(duration))
         let waitAction = SKAction.wait(forDuration: 3)
         let removeAction = SKAction.run {
             self.removeAction(forKey: "spawnObstacle")
         }
-        let sequence = SKAction.sequence([levelDuration, removeAction, waitAction, spawnPoskamling])
+        let sequence = SKAction.sequence([waitAction, removeLabel, levelDuration, removeAction, waitAction, spawnPoskamling])
         run(sequence, withKey: "spawnPoskamling")
     }
     

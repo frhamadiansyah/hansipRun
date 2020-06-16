@@ -26,6 +26,7 @@
 		75669B832490F5AD00BC0354 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75669B812490F5AD00BC0354 /* Main.storyboard */; };
 		75669B852490F5AF00BC0354 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75669B842490F5AF00BC0354 /* Assets.xcassets */; };
 		75669B882490F5AF00BC0354 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75669B862490F5AF00BC0354 /* LaunchScreen.storyboard */; };
+		757A6B1E2498A738006D1539 /* Minecraft.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 757A6B1D2498A738006D1539 /* Minecraft.ttf */; };
 		B78DC10E24975F8A00F80EDC /* jump-effect.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC10D24975F8A00F80EDC /* jump-effect.wav */; };
 		B78DC110249771E900F80EDC /* backsong.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC10F249771E900F80EDC /* backsong.wav */; };
 		B78DC113249776A500F80EDC /* backsong-effect-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC111249776A500F80EDC /* backsong-effect-2.wav */; };
@@ -56,6 +57,7 @@
 		75669B842490F5AF00BC0354 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75669B872490F5AF00BC0354 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		75669B892490F5AF00BC0354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		757A6B1D2498A738006D1539 /* Minecraft.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Minecraft.ttf; sourceTree = "<group>"; };
 		B78DC10D24975F8A00F80EDC /* jump-effect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "jump-effect.wav"; sourceTree = "<group>"; };
 		B78DC10F249771E900F80EDC /* backsong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = backsong.wav; sourceTree = "<group>"; };
 		B78DC111249776A500F80EDC /* backsong-effect-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "backsong-effect-2.wav"; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				7537E35424930F6500FB7D39 /* Scene */,
 				75669B772490F5AD00BC0354 /* AppDelegate.swift */,
 				75669B7F2490F5AD00BC0354 /* GameViewController.swift */,
+				757A6B1D2498A738006D1539 /* Minecraft.ttf */,
 				75669B812490F5AD00BC0354 /* Main.storyboard */,
 				75669B842490F5AF00BC0354 /* Assets.xcassets */,
 				75669B862490F5AF00BC0354 /* LaunchScreen.storyboard */,
@@ -210,6 +213,7 @@
 				B78DC110249771E900F80EDC /* backsong.wav in Resources */,
 				75669B7C2490F5AD00BC0354 /* Actions.sks in Resources */,
 				B78DC114249776A500F80EDC /* backsong-effect.wav in Resources */,
+				757A6B1E2498A738006D1539 /* Minecraft.ttf in Resources */,
 				750257D62496AB2F004BC3DD /* YouWinScene.sks in Resources */,
 				B78DC10E24975F8A00F80EDC /* jump-effect.wav in Resources */,
 			);

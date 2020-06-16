@@ -26,6 +26,7 @@ class GameOverScene: SKScene {
     func addYouDeadLabel() {
         youDeadLabel = SKLabelNode(text: "You are DEAD!!")
         youDeadLabel?.name = "youDeadLabel"
+        youDeadLabel?.fontName = "Minecraft"
         youDeadLabel?.fontSize = 50
         youDeadLabel?.position = CGPoint(x: 0, y: self.frame.height/8)
         youDeadLabel?.zPosition = 1
@@ -35,6 +36,7 @@ class GameOverScene: SKScene {
     func addRetryLabel() {
         tapToRetryLabel = SKLabelNode(text: "Tap anywhere to retry")
         tapToRetryLabel?.name = "tapToRetryLabel"
+        tapToRetryLabel?.fontName = "Minecraft"
         tapToRetryLabel?.fontSize = 30
         tapToRetryLabel?.position = CGPoint(x: 0, y: 0)
         tapToRetryLabel?.zPosition = 2
