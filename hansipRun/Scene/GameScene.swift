@@ -54,7 +54,14 @@ class GameScene: SKScene {
         createGround()
         createHansip()
         createDistanceBar()
-        setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
+        
+        let spawnObstacle = SKAction.run {
+            self.setupSpawnAction(minSpawnTime: self.minSpawnTime, maxSpawnTime: self.maxSpawnTime)
+        }
+        let waitAction = SKAction.wait(forDuration: 3)
+        run(SKAction.sequence([waitAction, spawnObstacle]))
+        
+//        setupSpawnAction(minSpawnTime: minSpawnTime, maxSpawnTime: maxSpawnTime)
         finishCriteria(duration: levelDuration)
         setupBackSongAudio()
         
@@ -70,15 +77,7 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if hansip is airborne, he is incapable of jumping
-//        if inGround == true {
-//            if voicePower > -120.0 {
-//                inGround = false
-//                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 300.0), duration: 0.1))
-//                hansip.removeAction(forKey: "movingAnimation")
-//                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
-//            }
-//
-//        }
+
     }
 }
 
@@ -121,6 +120,7 @@ extension GameScene {
             sky.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)!)
             sky.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             sky.position = CGPoint(x: CGFloat(i) * sky.size.width, y: 0)
+            sky.zPosition = -1
 
             self.addChild(sky)
 
@@ -130,6 +130,7 @@ extension GameScene {
             tree.size = CGSize(width: (self.scene?.size.width)!, height: (self.scene?.size.height)! / 3)
             tree.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             tree.position = CGPoint(x: CGFloat(i) * tree.size.width, y: frame.minY + (self.scene?.size.height)!/4 + tree.size.height/2)
+            tree.zPosition = 0
 
             self.addChild(tree)
             
@@ -160,7 +161,7 @@ extension GameScene {
         let randomInt = Int.random(in: 0...1)
         let obstacle = SKSpriteNode(imageNamed: obstacleArray[randomInt])
         obstacle.anchorPoint = CGPoint(x: 0, y: 0)
-        obstacle.setScale(0.1 * CGFloat.random(in: 5...20))
+        obstacle.setScale(0.1 * CGFloat.random(in: 10...25))
         obstacle.position = CGPoint(x: frame.maxX - obstacle.size.width, y: frame.minY + (self.scene?.size.height)!/4)
         obstacle.zPosition = 3
         self.addChild(obstacle)
@@ -307,12 +308,24 @@ extension GameScene {
             self.createPoskamling()
         }
         
+        let introductionLabel = SKLabelNode(text: "SCREAM to jump!")
+        introductionLabel.name = "startLabel"
+        introductionLabel.fontName = "Minecraft"
+        introductionLabel.fontSize = 50
+        introductionLabel.position = CGPoint(x: 0, y: self.frame.height/8)
+        introductionLabel.zPosition = 1
+        print("start")
+        self.addChild(introductionLabel)
+        
+        let removeLabel = SKAction.run {
+            introductionLabel.removeFromParent()
+        }
         let levelDuration = SKAction.wait(forDuration: TimeInterval(duration))
         let waitAction = SKAction.wait(forDuration: 3)
         let removeAction = SKAction.run {
             self.removeAction(forKey: "spawnObstacle")
         }
-        let sequence = SKAction.sequence([levelDuration, removeAction, waitAction, spawnPoskamling])
+        let sequence = SKAction.sequence([waitAction, removeLabel, levelDuration, removeAction, waitAction, spawnPoskamling])
         run(sequence, withKey: "spawnPoskamling")
     }
     

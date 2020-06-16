@@ -9,5 +9,5 @@
 import Foundation
 
 class levelObjective {
-    static var duration = 20.0
+    static var duration = 25.0
 }
