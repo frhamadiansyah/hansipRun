@@ -11,24 +11,25 @@ import SpriteKit
 
 class MainMenuScene: SKScene {
     
-    var startLabel : SKLabelNode?
     var tapToBeginLabel : SKLabelNode?
     
     override func didMove(to view: SKView) {
-        addStartLabel()
+
+        addTitleLabel()
         addTapToBeginLabel()
         createBackground()
     }
     
-    func addStartLabel() {
-        startLabel = SKLabelNode(text: "START")
-        startLabel?.name = "startLabel"
-        startLabel?.fontName = "Minecraft"
-        startLabel?.fontSize = 50
-        startLabel?.position = CGPoint(x: 0, y: self.frame.height/8)
-        startLabel?.zPosition = 1
+    
+    func addTitleLabel() {
+        let titleLabel = SKLabelNode(text: "HANSIP-RUN")
+        titleLabel.name = "title"
+        titleLabel.fontName = "Minecraft"
+        titleLabel.fontSize = 50
+        titleLabel.position = CGPoint(x: 0, y: self.frame.height/6)
+        titleLabel.zPosition = 1
         print("start")
-        self.addChild(startLabel!)
+        self.addChild(titleLabel)
     }
     
     func addTapToBeginLabel() {
@@ -36,7 +37,7 @@ class MainMenuScene: SKScene {
         tapToBeginLabel?.name = "tapToBeginLabel"
         tapToBeginLabel?.fontName = "Minecraft"
         tapToBeginLabel?.fontSize = 40
-        tapToBeginLabel?.position = CGPoint(x: 0, y: 0)
+        tapToBeginLabel?.position = CGPoint(x: 0, y: -self.frame.height/8)
         tapToBeginLabel?.zPosition = 1
 //        print("start")
         self.addChild(tapToBeginLabel!)
@@ -53,17 +54,7 @@ class MainMenuScene: SKScene {
         
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        guard let touch = touches.first else { return }
-//        let startNode = childNode(withName: "startLabel") as! SKLabelNode
-//        if startNode.frame.contains(touch.location(in: self)) {
-//        }
-        
-//        if let scene = SKScene(fileNamed: "GameScene") {
-//            scene.scaleMode = scaleMode
-//            view?.presentScene(scene)
-//        }
-        
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {        
         if let scene = SKScene(fileNamed: "PreStoryScene") {
             scene.scaleMode = scaleMode
             view?.presentScene(scene)

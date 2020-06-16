@@ -78,15 +78,7 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if hansip is airborne, he is incapable of jumping
-//        if inGround == true {
-//            if voicePower > -120.0 {
-//                inGround = false
-//                hansip.run(SKAction.applyImpulse(CGVector(dx: 0.0, dy: 300.0), duration: 0.1))
-//                hansip.removeAction(forKey: "movingAnimation")
-//                hansip.texture = SKTexture(imageNamed: "Hansip - Jump-1.png")
-//            }
-//
-//        }
+
     }
 }
 
@@ -170,7 +162,7 @@ extension GameScene {
         let randomInt = Int.random(in: 0...1)
         let obstacle = SKSpriteNode(imageNamed: obstacleArray[randomInt])
         obstacle.anchorPoint = CGPoint(x: 0, y: 0)
-        obstacle.setScale(0.1 * CGFloat.random(in: 5...20))
+        obstacle.setScale(0.1 * CGFloat.random(in: 10...25))
         obstacle.position = CGPoint(x: frame.maxX - obstacle.size.width, y: frame.minY + (self.scene?.size.height)!/4)
         obstacle.zPosition = 3
         self.addChild(obstacle)
