@@ -68,6 +68,7 @@ class GameScene: SKScene {
         // set distanceBar boundary
         Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
         
+        backsongAudio.play()
     }
     
     

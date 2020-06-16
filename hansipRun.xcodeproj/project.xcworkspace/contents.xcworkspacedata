@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:hansipRun.xcodeproj">
+      location = "group:/Users/muhamadhaddawi/Documents/Apple Developer Academy/Projects/Nano Challenge 3/hansipRun/hansipRun/Sounds/jump-effect.wav">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

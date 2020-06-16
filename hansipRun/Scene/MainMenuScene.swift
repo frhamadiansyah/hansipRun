@@ -55,15 +55,18 @@ class MainMenuScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        guard let touch = touches.first else { return }
-        
 //        let startNode = childNode(withName: "startLabel") as! SKLabelNode
 //        if startNode.frame.contains(touch.location(in: self)) {
-            if let scene = SKScene(fileNamed: "GameScene") {
-                scene.scaleMode = scaleMode
-                view?.presentScene(scene)
-            }
-            
 //        }
+        
+//        if let scene = SKScene(fileNamed: "GameScene") {
+//            scene.scaleMode = scaleMode
+//            view?.presentScene(scene)
+//        }
+        
+        if let scene = SKScene(fileNamed: "PreStoryScene") {
+            scene.scaleMode = scaleMode
+            view?.presentScene(scene)
+        }
     }
-    
 }
