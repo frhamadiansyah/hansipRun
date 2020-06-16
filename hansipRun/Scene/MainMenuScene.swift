@@ -20,9 +20,8 @@ class MainMenuScene: SKScene {
         createBackground()
     }
     
-    
     func addTitleLabel() {
-        let titleLabel = SKLabelNode(text: "HANSIP-RUN")
+        let titleLabel = SKLabelNode(text: "HANSIP RUN")
         titleLabel.name = "title"
         titleLabel.fontName = "Minecraft"
         titleLabel.fontSize = 50
@@ -39,7 +38,6 @@ class MainMenuScene: SKScene {
         tapToBeginLabel?.fontSize = 40
         tapToBeginLabel?.position = CGPoint(x: 0, y: -self.frame.height/8)
         tapToBeginLabel?.zPosition = 1
-//        print("start")
         self.addChild(tapToBeginLabel!)
     }
     
@@ -51,17 +49,12 @@ class MainMenuScene: SKScene {
         sky.position = CGPoint(x: 0, y: 0)
         
         self.addChild(sky)
-        
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-            if let scene = SKScene(fileNamed: "GameScene") {
-                scene.scaleMode = scaleMode
-                view?.presentScene(scene)
-            }
-            
-
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {        
+        if let scene = SKScene(fileNamed: "PreStoryScene") {
+            scene.scaleMode = scaleMode
+            view?.presentScene(scene)
+        }
     }
-    
 }

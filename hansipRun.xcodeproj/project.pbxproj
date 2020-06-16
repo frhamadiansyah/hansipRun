@@ -27,12 +27,13 @@
 		75669B852490F5AF00BC0354 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75669B842490F5AF00BC0354 /* Assets.xcassets */; };
 		75669B882490F5AF00BC0354 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75669B862490F5AF00BC0354 /* LaunchScreen.storyboard */; };
 		757A6B1E2498A738006D1539 /* Minecraft.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 757A6B1D2498A738006D1539 /* Minecraft.ttf */; };
-		B78DC10E24975F8A00F80EDC /* jump-effect.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC10D24975F8A00F80EDC /* jump-effect.wav */; };
 		B78DC110249771E900F80EDC /* backsong.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC10F249771E900F80EDC /* backsong.wav */; };
 		B78DC113249776A500F80EDC /* backsong-effect-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC111249776A500F80EDC /* backsong-effect-2.wav */; };
 		B78DC114249776A500F80EDC /* backsong-effect.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC112249776A500F80EDC /* backsong-effect.wav */; };
 		B78DC1162497780100F80EDC /* juhani-junkala-adventure-backsong.wav in Resources */ = {isa = PBXBuildFile; fileRef = B78DC1152497780100F80EDC /* juhani-junkala-adventure-backsong.wav */; };
 		B78DC1182497876E00F80EDC /* GameScene+ExtensionSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78DC1172497876E00F80EDC /* GameScene+ExtensionSound.swift */; };
+		B7B0303D2498B5B100DEAE00 /* PreStoryScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B7B0303C2498B5B100DEAE00 /* PreStoryScene.sks */; };
+		B7B0303F2498B5C500DEAE00 /* PreStoryScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B0303E2498B5C500DEAE00 /* PreStoryScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,12 +59,14 @@
 		75669B872490F5AF00BC0354 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		75669B892490F5AF00BC0354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		757A6B1D2498A738006D1539 /* Minecraft.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Minecraft.ttf; sourceTree = "<group>"; };
-		B78DC10D24975F8A00F80EDC /* jump-effect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "jump-effect.wav"; sourceTree = "<group>"; };
 		B78DC10F249771E900F80EDC /* backsong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = backsong.wav; sourceTree = "<group>"; };
 		B78DC111249776A500F80EDC /* backsong-effect-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "backsong-effect-2.wav"; sourceTree = "<group>"; };
 		B78DC112249776A500F80EDC /* backsong-effect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "backsong-effect.wav"; sourceTree = "<group>"; };
 		B78DC1152497780100F80EDC /* juhani-junkala-adventure-backsong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "juhani-junkala-adventure-backsong.wav"; sourceTree = "<group>"; };
 		B78DC1172497876E00F80EDC /* GameScene+ExtensionSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+ExtensionSound.swift"; sourceTree = "<group>"; };
+		B7B0303C2498B5B100DEAE00 /* PreStoryScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = PreStoryScene.sks; sourceTree = "<group>"; };
+		B7B0303E2498B5C500DEAE00 /* PreStoryScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreStoryScene.swift; sourceTree = "<group>"; };
+		B7B030402498C1E500DEAE00 /* jump-effect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "jump-effect.wav"; path = "/Users/muhamadhaddawi/Documents/Apple Developer Academy/Projects/Nano Challenge 3/hansipRun/hansipRun/Sounds/jump-effect.wav"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +96,8 @@
 				750257D52496AB2F004BC3DD /* YouWinScene.sks */,
 				750257D9249784AA004BC3DD /* DeadCutScene.sks */,
 				750257DB249784C2004BC3DD /* DeadCutScene.swift */,
+				B7B0303C2498B5B100DEAE00 /* PreStoryScene.sks */,
+				B7B0303E2498B5C500DEAE00 /* PreStoryScene.swift */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -134,7 +139,7 @@
 		B78DC10A24975AFB00F80EDC /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				B78DC10D24975F8A00F80EDC /* jump-effect.wav */,
+				B7B030402498C1E500DEAE00 /* jump-effect.wav */,
 				B78DC10F249771E900F80EDC /* backsong.wav */,
 				B78DC111249776A500F80EDC /* backsong-effect-2.wav */,
 				B78DC112249776A500F80EDC /* backsong-effect.wav */,
@@ -207,6 +212,7 @@
 				75669B7A2490F5AD00BC0354 /* GameScene.sks in Resources */,
 				B78DC113249776A500F80EDC /* backsong-effect-2.wav in Resources */,
 				75669B852490F5AF00BC0354 /* Assets.xcassets in Resources */,
+				B7B0303D2498B5B100DEAE00 /* PreStoryScene.sks in Resources */,
 				75669B882490F5AF00BC0354 /* LaunchScreen.storyboard in Resources */,
 				750257DA249784AA004BC3DD /* DeadCutScene.sks in Resources */,
 				7537E3512492761C00FB7D39 /* MainMenuScene.sks in Resources */,
@@ -215,7 +221,6 @@
 				B78DC114249776A500F80EDC /* backsong-effect.wav in Resources */,
 				757A6B1E2498A738006D1539 /* Minecraft.ttf in Resources */,
 				750257D62496AB2F004BC3DD /* YouWinScene.sks in Resources */,
-				B78DC10E24975F8A00F80EDC /* jump-effect.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7B0303F2498B5C500DEAE00 /* PreStoryScene.swift in Sources */,
 				B78DC1182497876E00F80EDC /* GameScene+ExtensionSound.swift in Sources */,
 				7537E3532492763B00FB7D39 /* MainMenuScene.swift in Sources */,
 				75669B7E2490F5AD00BC0354 /* GameScene.swift in Sources */,
@@ -381,7 +387,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JPMPS53HUZ;
+				DEVELOPMENT_TEAM = W5ZPF478J8;
 				INFOPLIST_FILE = hansipRun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -391,7 +397,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.DeveloperAcademy.NC3.hansipRun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -400,7 +406,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JPMPS53HUZ;
+				DEVELOPMENT_TEAM = W5ZPF478J8;
 				INFOPLIST_FILE = hansipRun/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -410,7 +416,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.DeveloperAcademy.NC3.hansipRun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
